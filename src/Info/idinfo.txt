@@ -1,4 +1,2 @@
-﻿userName@Tomcat@userPassword@123456789
-userName@Tomcatter@userPassword@123456789
-userName@Tommcatter@userPassword@123456789
-
+﻿userName@Tomcat@password@123456@phoneNumber@123456@idnum@null
+userName@tommmy@password@123321@phoneNumber@123321@idnum@null@type@Landlord@CreditPoint@50

@@ -1,15 +1,60 @@
 package item;
 
+import RegLogin.Account;
+
 import java.io.Serializable;
 
 /**
- * 房客求租类，实现对房客信息的存储，并发送给服务器，利用服务器进行存储
+ *
  * @author Administrator
  *
  */
 public class ForRentMessage implements Serializable{
-	 String RentOrNot;
-	 String roomType;//求租房屋类型
-	 String address;//求租地址
-	 String phoneNumber;//电话号码
+	private String RentOrNot;//鍑虹杩樻槸姹傜
+	private Account account;
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+
+	private String roomType;//鎴峰瀷
+	private String address;//鍦板潃
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	private String phoneNumber;//鐢佃瘽鍙风爜
+
+	public String getRentOrNot() {
+		return RentOrNot;
+	}
+
+	public void setRentOrNot(String rentOrNot) {
+		RentOrNot = rentOrNot;
+	}
 }

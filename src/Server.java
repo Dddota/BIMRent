@@ -2,52 +2,69 @@ import RegLogin.Account;
 import item.FileOperate;
 import item.Request;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 
 public class Server {
-	/*public static void main(String [] args) throws IOException, ClassNotFoundException{
-		//½¨Á¢Ò»¸ö·şÎñÆ÷Socket(ServerSocket),Ö¸¶¨¶Ë¿Ú8800²¢¿ªÊ¼¼àÌı
+	public static void main(String [] args) throws IOException, ClassNotFoundException{
 		ServerSocket serverSocket = new ServerSocket(2000);
-		//Ê¹ÓÃaccept()·½·¨µÈ´ı¿Í»§¶Ë´¥·¢Í¨ĞÅ
 		Socket socket = serverSocket.accept();
-		//´ò¿ªÊäÈëÊä³öÁ÷
 		InputStream is = socket.getInputStream();
 		OutputStream os = socket.getOutputStream();
 		ObjectInputStream ois = new ObjectInputStream(is);
+		ObjectOutputStream ots = new ObjectOutputStream(os);
 		Request request = (Request)ois.readObject();
 		FileOperate fo = new FileOperate();
-		String replay;
-		*//*switch(request.type){
-		case "µÇÂ¼":
-			Account account = request.account;
-			String password = account.getPassword();
-			String userName = account.getUserName();
-			fo.readFile("userName@"+userName+"@password@"+password);
-		if(fo.isRight){
-			 replay = "»¶Ó­Äú£¡µÇÂ¼³É¹¦";
-		}*//*
-		else{
-			 replay = "ÕËºÅ»òÃÜÂë´íÎó£¬µÇÂ¼Ê§°Ü";
-		}
-		os.write(replay.getBytes());
-			break;
-		case "Çó×âĞÅÏ¢":
+		String reply;
+		switch(request.getType()){
+			case "ç™»å½•":
+				Account account = request.getAccount();
+				String password = account.getPassword();
+				String userName = account.getUserName();
+				fo.readFile("userName@"+userName+"@password@"+password);
+			if(fo.isRight()){
+				System.out.println(userName+"å·²ç™»å½•");
+				reply = "true";
+				ots.writeObject(fo.readaccount(account.getUserName()));//ç–‘ä¼¼æœ‰BUG
+			}
+			else{
+				 reply = "false";
+			}
+			os.write(reply.getBytes());
+				break;
+			case"æ³¨å†Œ":
+				account=request.getAccount();
+				password=account.getPassword();
+				userName=account.getUserName();
+				String phoneNumber=account.getPhoneNumber();
+				String idnum=account.getIdnum();
+				String type=account.getType();
+				int cp=account.getCreditPoint();
+				if(!fo.Regin(account)){
+					reply = "false";
+                }
+                else {
+                    fo.createfile1("userName@" + userName + "@password@" + password + "@phoneNumber@" + phoneNumber + "@idnum@" + idnum+"@type@"+type
+                    + "@CreditPoint@"+cp);
+                    System.out.println(userName+"å·²æ³¨å†Œ");
+                    reply = "true";
+                }
+                os.write(reply.getBytes());
+                break;
+		case "å‘å¸ƒä¿¡æ¯":
 			FileOperate.saveStringToTxt(request);
-			socket.close();
+            reply=request.getAccount().getUserName()+"ä¿¡æ¯å‘å¸ƒæˆåŠŸ";
+            os.write(reply.getBytes());
 			break;
-		case "³ö×âĞÅÏ¢":
-			FileOperate.saveStringToTxt(request);
-			socket.close();
+		case "ç§Ÿèµä¿¡æ¯":
+            reply= FileOperate.readRentInfo(request.getForRentMessage().getRentOrNot()).toString();
+            os.write(reply.getBytes());
 			break;
 		}
 		ois.close();
 		os.close();
 		is.close();
-	}*/
+	}
 }

@@ -1,5 +1,6 @@
 package RegLogin;
 
+import java.awt.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -104,51 +105,54 @@ public class idTest {
          return (last.equals(remaining == 2 ? "X" : String.valueOf(vi[remaining])));
     }
 
-    /**
-     * 构造方法拿信息。
-     * @param idstr
-     */
-    public idTest(String idstr) {
+
+    public idTest() {}
         //判断合法性
-        if (islegit(idstr)){
-        // 获取地址
-        CityMap cm = new CityMap();
-        location = cm.getLocation(idstr);
-        // 获取性别
-        String sex = idstr.substring(16, 17);
-        if (Integer.parseInt(sex) % 2 != 0) {
-            this.gender = "男";
-        } else {
-            this.gender = "女";
+
+    public boolean idLegit(String idstr){
+            if (islegit(idstr)){
+                // 获取地址
+                CityMap cm = new CityMap();
+                location = cm.getLocation(idstr);
+                // 获取性别
+                String sex = idstr.substring(16, 17);
+                if (Integer.parseInt(sex) % 2 != 0) {
+                    this.gender = "男";
+                } else {
+                    this.gender = "女";
+                }
+                // 获取出生日期
+                String birthday = idstr.substring(6, 14);
+                Date birthdate = null;
+                try {
+                    birthdate = new SimpleDateFormat("yyyyMMdd").parse(birthday);
+                    this.birthday = birthdate;
+                    GregorianCalendar currentDay = new GregorianCalendar();
+                    currentDay.setTime(birthdate);
+                    this.year = currentDay.get(Calendar.YEAR);
+                    this.month = currentDay.get(Calendar.MONTH) + 1;
+                    this.day = currentDay.get(Calendar.DAY_OF_MONTH);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(toString());
+                return true;
+            }
+            else {
+                System.out.println("输入身份证号不合法");
+                return false;}
         }
-        // 获取出生日期
-        String birthday = idstr.substring(6, 14);
-        Date birthdate = null;
-        try {
-            birthdate = new SimpleDateFormat("yyyyMMdd").parse(birthday);
-            this.birthday = birthdate;
-            GregorianCalendar currentDay = new GregorianCalendar();
-            currentDay.setTime(birthdate);
-            this.year = currentDay.get(Calendar.YEAR);
-            this.month = currentDay.get(Calendar.MONTH) + 1;
-            this.day = currentDay.get(Calendar.DAY_OF_MONTH);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-            System.out.println(toString());
-    }
-    else System.out.println("输入身份证号不合法");
-    }
 
     public String toString() {
         return "地区：" +location+ ",性别：" + this.gender + ",出生日期："
                 + this.year+"年"+this.month+"月"+this.day+"日";
     }
 
-    public static void main(String[] args) {
+/*   public static void main(String[] args) {
         CityMap.getMap();
-        String idcard = "350211197607142058";
-        idTest ie = new idTest(idcard);
-    }
+        String idcard = "350211197607142059";
+        idTest idtest=new idTest();
+        idtest.idLegit(idcard);
+    }*/
 }
 

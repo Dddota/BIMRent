@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Request implements Serializable{
 	String type;
 	Account account;
-
+	ForRentMessage forRentMessage;//出租信息
 	public String getType() {
 		return type;
 	}
@@ -24,7 +24,6 @@ public class Request implements Serializable{
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-
 	public ForRentMessage getForRentMessage() {
 		return forRentMessage;
 	}
@@ -33,6 +32,6 @@ public class Request implements Serializable{
 		this.forRentMessage = forRentMessage;
 	}
 
-	ForRentMessage forRentMessage;
+
 
 }

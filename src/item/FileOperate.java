@@ -1,5 +1,7 @@
 package item;
 
+import RegLogin.Account;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,132 +13,258 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 public class FileOperate {
-	//ĞÂ½¨Ò»¸öÎÄ¼ş
-	File efile1 = new File("src/idinfo.txt");
-	boolean flag = false;
-	boolean isRight = false;
-	/**
-	 * ÊµÏÖ¶ÔÕËºÅĞÅÏ¢µÄĞ´Èë
-	 * @param str
-	 */
-	public void createfile1(String str){
-		//´´½¨ÀàµÄ¶ÔÏó
-		FileOperate cf = new FileOperate();
-		
-		//ÅĞ¶ÏÎÄ¼şÊÇ·ñ´´½¨µÄ·½·¨
-		cf.isExit1(efile1);
-		//Ê¹ÓÃFileWriterÀàÊµÏÖÎÄ¼şµÄĞ´Èë
-		FileWriter fw = null;
-		BufferedWriter bw = null;
-		try {
-			fw = new FileWriter(efile1,true);
-			bw = new BufferedWriter(fw);
-			bw.write(str);
-			bw.newLine();
-			bw.flush();
-			System.out.println("Ğ´ÈëÍê±Ï£¡");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}finally{
-			try {
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				bw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-/**
- * Íê³ÉÕË»§µÄµÇÂ¼
- */
-	public boolean readFile(String str) {
-		FileReader fr = null;
-		BufferedReader br = null;
-		
-		try {
-			//´´½¨Ò»¸öFileReader¶ÔÏó
-			fr = new FileReader("src/idinfo.txt");
-			//´´½¨Ò»¸öBufferedReader¶ÔÏó
-			br = new BufferedReader(fr);
-			String line = str;
-			String[] str1 = line.split("@");
-			String str11 = str1[1];
-			String str12 = str1[3];
-			String str21 = null;
-			String str22 = null;
-			line = br.readLine();
-			while(line!=null){
-				String []str2 = line.split("@");
-				str21 = str2[1];
-				str22 = str2[3];
-				if(str11.equals(str21)){
-					flag =true;
-				}
-				if((str11.equals(str21))&&(str12.equals(str22))){
-					isRight = true;
-					break;
-				}
-				line = br.readLine();
-			}
-			System.out.println(str11);
-			System.out.println(str21);
-			System.out.println(str12);
-			System.out.println(str22);
-			
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return flag;
-	}
-	
-	public void isExit1(File efile) {
-		if (!efile.exists()) {
-			try {
-				efile.createNewFile();
-				System.out.println("ÕËºÅĞÅÏ¢ÎÄ¼şÒÑ´´½¨");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+    //æ–°å»ºä¸€ä¸ªæ–‡ä»¶
+    File efile1 = new File("src/info/idinfo.txt");
+    private boolean flag = false;
+    private boolean isRight = false;
 
-	}
+    public boolean isFlag() {
+        return flag;
+    }
 
-	/**
-	 * ³ö×âĞÅÏ¢»ã×Ü
-	 * @param request
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public boolean isRight() {
+        return isRight;
+    }
+
+    public void setRight(boolean right) {
+        isRight = right;
+    }
+
+    /**
+     * å®ç°å¯¹è´¦å·ä¿¡æ¯çš„å†™å…¥
+     *
+     * @param str
      */
-	public static void saveStringToTxt(Request request){
-		File file=new File("src/rentInfo");
-		ForRentMessage rent= request.forRentMessage;
-		String address= rent.address;
-		String phoneNum= rent.phoneNumber;
-		String roomType=rent.roomType;
-		String rentOrNot = rent.RentOrNot;
-		String res="roomType="+roomType+"@address="+address+"@phoneNumber="+phoneNum+"@rentOrNot="+rentOrNot+"\n";
-		try {
-			FileOutputStream fos=new FileOutputStream(file,true);
-			OutputStreamWriter osw=new OutputStreamWriter(fos);
-			BufferedWriter bw=new BufferedWriter(osw);
-			bw.write(res);
-			bw.newLine();
-			bw.flush();
-			System.out.println("Ğ´Èë³É¹¦£¡");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	
-	
-}
+    public void createfile1(String str) {
+        //åˆ›å»ºç±»çš„å¯¹è±¡
+        FileOperate cf = new FileOperate();
+        //åˆ¤æ–­æ–‡ä»¶æ˜¯å¦åˆ›å»ºçš„æ–¹æ³•
+        cf.isExit1(efile1);
+        //ä½¿ç”¨FileWriterç±»å®ç°æ–‡ä»¶çš„å†™å…¥
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        try {
+            fw = new FileWriter(efile1, true);
+            bw = new BufferedWriter(fw);
+            bw.write(str);
+            bw.newLine();
+            bw.flush();
+            System.out.println("å†™å…¥å®Œæ¯•ï¼");
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    /**
+     * å®Œæˆè´¦æˆ·çš„ç™»å½•
+     * éªŒè¯è´¦å·ç™»å½•
+     */
+    public boolean readFile(String str) {
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        try {
+            //åˆ›å»ºä¸€ä¸ªFileReaderå¯¹è±¡
+            fr = new FileReader("src/info/idinfo.txt");
+            //åˆ›å»ºä¸€ä¸ªBufferedReaderå¯¹è±¡
+            br = new BufferedReader(fr);
+            String line = str;
+            String[] str1 = line.split("@");
+            String str11 = str1[1];
+            String str12 = str1[3];
+            String str21 = null;
+            String str22 = null;
+            line = br.readLine();
+            while (line != null) {
+                String[] str2 = line.split("@");
+                str21 = str2[1];
+                str22 = str2[3];
+                if (str11.equals(str21)) {
+                    flag = true;
+                }
+                if ((str11.equals(str21)) && (str12.equals(str22))) {
+                    isRight = true;
+
+
+                    break;
+                }
+                line = br.readLine();
+            }
+            System.out.println(str11);
+            System.out.println(str21);
+            System.out.println(str12);
+            System.out.println(str22);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+
+    /**
+     * è´¦å·ç™»å½•ä»¥åè¯»å–è´¦å·ä¿¡æ¯
+     *
+     * @param name
+     * @return
+     */
+    public Account readaccount(String name) {
+        Account acount = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            acount = new Account();
+            fr = new FileReader("src/info/idinfo.txt");
+            br = new BufferedReader(fr);
+            String line = name;
+            line = br.readLine();
+            while (line != null) {
+                String[] str2 = line.split("@");
+                if (!str2[1].equals(name)) {
+                    line = br.readLine();
+                } else {
+                    acount.setUserName(str2[1]);
+                    acount.setPassword(str2[3]);
+                    acount.setPhoneNumber(str2[5]);
+                    acount.setIdnum(str2[7]);
+                    acount.setType(str2[9]);
+                    acount.setCreditPoint(Integer.parseInt(str2[11]));
+                    break;
+                }
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return acount;
+    }
+
+    /**
+     * è´¦å·æ³¨å†Œ
+     *
+     * @param account
+     * @return å¦‚æœè´¦å·åé‡å¤ï¼Œè¿”å›false
+     */
+    public boolean Regin(Account account) {
+        FileReader fr = null;
+        BufferedReader br = null;
+        try {
+            //åˆ›å»ºä¸€ä¸ªFileReaderå¯¹è±¡
+            fr = new FileReader("src/info/idinfo.txt");
+            //åˆ›å»ºä¸€ä¸ªBufferedReaderå¯¹è±¡
+            br = new BufferedReader(fr);
+            String line = account.getUserName();
+            String str1 = line;
+            line = br.readLine();
+            while (line != null) {
+                String[] str2 = line.split("@");
+                String str21 = str2[1];
+                line = br.readLine();
+                if (str1.equals(str21)) {
+                    isRight = false;
+                    break;
+                } else isRight = true;
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+        return isRight;
+    }
+
+    public void isExit1(File efile) {
+        if (!efile.exists()) {
+            try {
+                efile.createNewFile();
+                System.out.println("è´¦å·ä¿¡æ¯æ–‡ä»¶å·²åˆ›å»º");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
+     * å‡ºç§Ÿæˆ–æ±‚ç§Ÿä¿¡æ¯
+     *
+     * @param request
+     */
+    public static void saveStringToTxt(Request request) {
+        File file = new File("src/info/rentInfo");
+        ForRentMessage rent = request.forRentMessage;
+        String address = rent.getAddress();
+        String phoneNum = rent.getPhoneNumber();
+        String roomType = rent.getRoomType();
+        String rentOrNot = rent.getRentOrNot();
+        String user = rent.getAccount().getUserName();
+        String res = "user=" + user +"@rentOrNot=" + rentOrNot + "@roomType=" + roomType + "@address=" + address + "@phoneNumber=" + phoneNum +  "\n";
+        try {
+            FileOutputStream fos = new FileOutputStream(file, true);
+            OutputStreamWriter osw = new OutputStreamWriter(fos);
+            BufferedWriter bw = new BufferedWriter(osw);
+            bw.write(res);
+            bw.newLine();
+            bw.flush();
+            System.out.println(user + "å‘å¸ƒçš„ä¿¡æ¯å†™å…¥æˆåŠŸï¼");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * è¯»å–æ±‚å‡ºç§Ÿä¿¡æ¯ã€‚
+     * @param str
+     */
+    public static StringBuffer readRentInfo(String str) {
+        FileReader fr = null;
+        BufferedReader br = null;
+        StringBuffer info=null;
+        try {
+            info=new StringBuffer();
+            //åˆ›å»ºä¸€ä¸ªFileReaderå¯¹è±¡
+            fr = new FileReader("src/info/rentInfo");
+            //åˆ›å»ºä¸€ä¸ªBufferedReaderå¯¹è±¡
+            br = new BufferedReader(fr);
+            String line = br.readLine();
+            while (line!=null){
+                if (-1!=line.indexOf(str)){
+                String[] str1 = line.split("@");
+                for (int i = 0; i < str1.length; i++) {
+                    String []str2=str1[i].split("=");
+                    info.append(str2[1]+" ");
+            }}
+                System.out.println("\n");
+            line=br.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return info;
+    }
+
+    public static void main(String[] args) {
+        readRentInfo("æ±‚ç§Ÿ");
+    }
+}

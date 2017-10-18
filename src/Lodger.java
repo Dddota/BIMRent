@@ -1,84 +1,106 @@
 import RegLogin.Account;
 import item.ForRentMessage;
 import item.Request;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+/**
+ * ä¸¥é‡BUGã€‚
+ */
 
 public class Lodger {
-/*	public static void main(String [] args) throws UnknownHostException, IOException{
 
-		request.type = "Çó×âĞÅÏ¢";
+		/*request.type = "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢";
 		switch(request.type){
-		case "µÇÂ¼":
+		case "ï¿½ï¿½Â¼":
 			Account account = new Account();
 			account.userName = "Tomcatter";
 			account.password = "123456789";
 			request.account = account;
+
 			break;
-		case "ÏÔÊ¾ËùÓĞĞÅÏ¢":
+		case "ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢":
 			break;
-		case "Çó×âĞÅÏ¢":
+		case "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢":
 			ForRentMessage forRentMessage = new ForRentMessage();
-			forRentMessage.roomType = "ÈıÊÒÒ»Ìü";
-			forRentMessage.address = "Éò°ëÂ·328ºÅ";
+			forRentMessage.roomType = "ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½";
+			forRentMessage.address = "ï¿½ï¿½ï¿½Â·328ï¿½ï¿½";
 			forRentMessage.phoneNumber = "18293145325";
-			forRentMessage.RentOrNot = "Çó×â";
+			forRentMessage.RentOrNot = "ï¿½ï¿½ï¿½ï¿½";
 			request.forRentMessage = forRentMessage;
 			break;
-	case "³ö×âĞÅÏ¢":
+	case "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢":
 			ForRentMessage forRentMessage1 = new ForRentMessage();
-			forRentMessage1.roomType = "ÈıÊÒ¶şÌü";
-			forRentMessage1.address = "Éò°ëÂ·328ºÅ";
+			forRentMessage1.roomType = "ï¿½ï¿½ï¿½Ò¶ï¿½ï¿½ï¿½";
+			forRentMessage1.address = "ï¿½ï¿½ï¿½Â·328ï¿½ï¿½";
 			forRentMessage1.phoneNumber = "18293145325";
-			forRentMessage1.RentOrNot = "³ö×â";
+			forRentMessage1.RentOrNot = "ï¿½ï¿½ï¿½ï¿½";
 			request.forRentMessage = forRentMessage1;
 			break;
-		}
-		//·¢ËÍ¿Í»§¶ËĞÅÏ¢¼´ÏòÊä³öÁ÷Ğ´ÈëĞÅÏ¢*/
+		}*/
+        //ï¿½ï¿½ï¿½Í¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½Ï¢*/
 
 
-		public void ClientSocket(){
+        public static void ClientSocket () {
 
-		}
-		public void ClientSend(Request request){
-			//½¨Á¢¿Í»§¶ËSocketÁ¬½Ó£¬Ö¸¶¨·şÎñÆ÷µÄÎ»ÖÃÎª±¾»úÒÔ¼°¶Ë¿Ú8800
-			Socket socket = null;
-			try {
-				socket = new Socket("localhost",2000);
-			//´ò¿ªÊäÈë/Êä³öÁ÷
-				OutputStream os = socket.getOutputStream();
-				InputStream is = socket.getInputStream();
-				request = new Request();
-				ObjectOutputStream oos = new ObjectOutputStream(os);
-				oos.writeObject(request);
-			//½ÓÏÂÀ´´¦ÀíÏìÓ¦
-				socket.shutdownOutput();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
-		
+        }
+
+    public static void ClientSend(Request request) {
+
+            Socket socket =null;
+        try {
+            socket=new Socket("localhost", 2000);
+            OutputStream os = socket.getOutputStream();
+            InputStream is = socket.getInputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(os);
+            ObjectInputStream ois=new ObjectInputStream(is);
+            oos.writeObject(request);
+            socket.shutdownOutput();
+            //å›å¤
+            //ç–‘ä¼¼BUGï¼Œæ·»åŠ äº†æ¥å—å¯¹è±¡ä»¥åï¼Œå›å¤ä¿¡æ¯ç–‘ä¼¼æœ‰è¯¯ã€‚
+            String reply = null;
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            while ((reply=br.readLine())!=null){
+                switch (reply) {
+                    case "true":
+                        Menu.account=(Account)ois.readObject();
+                        Menu.isLogin = true;
+                        Menu.isRegin = true;
+                        break;
+                    case "false":
+                        Menu.isLogin = false;
+                        Menu.isRegin = false;
+                        break;
+                    default:
+                        System.out.println(reply);
+                        break;
+                }
+                }
+            br.close();
+            is.close();
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 //		ObjectOutputStream oos = new ObjectOutputStream(os);
 //		oos.writeObject(request);
 		
-	/*	//·¢ËÍ¿Í»§¶ËÇó×âĞÅÏ¢¼´ÏòÊä³öÁ÷Ğ´ÈëĞÅÏ¢
-		String info2 = "roomType@ÈıÊÒÒ»Ìüaddress@Éò°ëÂ·phoneNumber@18293145325";
+	/*	//ï¿½ï¿½ï¿½Í¿Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ´ï¿½ï¿½ï¿½ï¿½Ï¢
+		String info2 = "roomType@ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½address@ï¿½ï¿½ï¿½Â·phoneNumber@18293145325";
 		os.write(info1.getBytes());
 		//os.write(info2.getBytes());
 		socket.shutdownOutput();*/
-		//½ÓÊÜ·şÎñ¶ËµÄÏìÓ¦£¬¼´´ÓÊäÈëÁ÷¶ÁÈ¡ĞÅÏ¢
+		//ï¿½ï¿½ï¿½Ü·ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Ï¢
 //		String replay = null;
 //		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 //
-//		br.close();
-//		is.close();
-//		os.close();
+
 		
 	}
 	
