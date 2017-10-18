@@ -22,6 +22,7 @@ public class Menu {
                 SecMenu();
                 break;
             case 2:
+                SecMenu();
                 break;
             case 3:
                 System.exit(0);
