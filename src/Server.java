@@ -11,7 +11,7 @@ import java.net.Socket;
 
 
 public class Server {
-	public static void main(String [] args) throws IOException, ClassNotFoundException{
+	/*public static void main(String [] args) throws IOException, ClassNotFoundException{
 		//建立一个服务器Socket(ServerSocket),指定端口8800并开始监听
 		ServerSocket serverSocket = new ServerSocket(2000);
 		//使用accept()方法等待客户端触发通信
@@ -23,7 +23,7 @@ public class Server {
 		Request request = (Request)ois.readObject();
 		FileOperate fo = new FileOperate();
 		String replay;
-		switch(request.type){
+		*//*switch(request.type){
 		case "登录":
 			Account account = request.account;
 			String password = account.getPassword();
@@ -31,7 +31,7 @@ public class Server {
 			fo.readFile("userName@"+userName+"@password@"+password);
 		if(fo.isRight){
 			 replay = "欢迎您！登录成功";
-		}
+		}*//*
 		else{
 			 replay = "账号或密码错误，登录失败";
 		}
@@ -49,5 +49,5 @@ public class Server {
 		ois.close();
 		os.close();
 		is.close();
-	}
+	}*/
 }

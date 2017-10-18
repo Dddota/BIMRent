@@ -11,7 +11,7 @@ import java.net.UnknownHostException;
 
 
 public class Lodger {
-	public static void main(String [] args) throws UnknownHostException, IOException{
+/*	public static void main(String [] args) throws UnknownHostException, IOException{
 
 		request.type = "求租信息";
 		switch(request.type){
@@ -40,9 +40,9 @@ public class Lodger {
 			request.forRentMessage = forRentMessage1;
 			break;
 		}
-		//发送客户端信息即向输出流写入信息
+		//发送客户端信息即向输出流写入信息*/
 
-	}
+
 		public void ClientSocket(){
 
 		}
