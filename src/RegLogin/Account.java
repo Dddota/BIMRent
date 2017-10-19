@@ -12,7 +12,7 @@ public class Account implements Serializable {
     private String idnum;//身份证号码
     private String type;//账号的种类，房东或房客。Lodger、Landlord
     private int creditPoint = 50;//账号的信用积分
-    private String choose;//账号的选择
+    //private String choose;//账号的选择
 
 
     public int getCreditPoint() {

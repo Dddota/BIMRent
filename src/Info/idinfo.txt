@@ -1,2 +1,5 @@
 ﻿userName@Tomcat@password@123456@phoneNumber@123456@idnum@null
 userName@tommmy@password@123321@phoneNumber@123321@idnum@null@type@Landlord@CreditPoint@50
+userName@yindongxu@password@123321@phoneNumber@123321@idnum@350211197607142059@type@Lodger@CreditPoint@50
+userName@2255cn@password@123321@phoneNumber@123321@idnum@350211197607142059@type@Landlord@CreditPoint@50
+userName@qqwwee@password@qqwwee@phoneNumber@qqwwee@idnum@350211197607142059@type@Landlord@CreditPoint@50

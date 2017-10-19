@@ -54,6 +54,14 @@ public class Menu {
         request.setAccount(account);
         Lodger.ClientSend(request);
         if (isLogin){
+            System.out.println("选择您要进入的客户端，1.房客 2.房东");
+            switch (scanner.nextInt()){
+                case 1:account.setType("Lodger");
+                    break;
+                case 2:
+                    account.setType("Landlord");
+                    break;
+            }
             SecMenu();
         }
         else {System.out.println("您输入的密码有误，请重新输入");
@@ -195,7 +203,7 @@ public class Menu {
         System.out.println("输入地址");
         forRentMessage.setAddress(scanner.next());
         System.out.println("输入联系方式");
-        forRentMessage.setAddress(scanner.next());
+        forRentMessage.setPhoneNumber(scanner.next());
         System.out.println("请选择：1.求租 2.出租");
         switch (scanner.nextInt()){
             case 1:
@@ -207,6 +215,7 @@ public class Menu {
         }
         forRentMessage.setAccount(account);
         request.setForRentMessage(forRentMessage);
+        request.setAccount(account);
         request.setType("发布信息");
         Lodger.ClientSend(request);
         SecMenu();
@@ -253,6 +262,13 @@ public class Menu {
     //7支付模块
     public void Payment(){
 
+    }
+    //8退出模块
+    public static void Exit(){
+        Request request=new Request();
+        request.setType("退出");
+        Lodger.ClientSend(request);
+        System.exit(0);
     }
     public static void main(String[] args) {
         Menu menu=new Menu();

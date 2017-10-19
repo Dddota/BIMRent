@@ -121,12 +121,12 @@ public class FileOperate {
 
     /**
      * 账号登录以后读取账号信息
-     *
+     * 暂时无法解决信息和账号同时传递的问题，导致reply出现异常。
      * @param name
      * @return
-     */
+
     public Account readaccount(String name) {
-        Account acount = null;
+       /Account acount = null;
         FileReader fr = null;
         BufferedReader br = null;
         try {
@@ -155,7 +155,7 @@ public class FileOperate {
             e.printStackTrace();
         }
         return acount;
-    }
+   }*/
 
     /**
      * 账号注册

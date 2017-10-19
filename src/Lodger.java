@@ -54,26 +54,27 @@ public class Lodger {
             OutputStream os = socket.getOutputStream();
             InputStream is = socket.getInputStream();
             ObjectOutputStream oos = new ObjectOutputStream(os);
-            ObjectInputStream ois=new ObjectInputStream(is);
             oos.writeObject(request);
             socket.shutdownOutput();
             //回复
-            //疑似BUG，添加了接受对象以后，回复信息疑似有误。
             String reply = null;
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             while ((reply=br.readLine())!=null){
                 switch (reply) {
                     case "true":
-                        Menu.account=(Account)ois.readObject();
                         Menu.isLogin = true;
                         Menu.isRegin = true;
+                        /*                        ObjectInputStream ois=new ObjectInputStream(is);
+                        Menu.account=(Account)ois.readObject();
+                        ois.close();*/
                         break;
                     case "false":
                         Menu.isLogin = false;
                         Menu.isRegin = false;
                         break;
                     default:
-                        System.out.println(reply);
+                        System.out.print(reply);
+                        System.out.println("\n");
                         break;
                 }
                 }
@@ -81,8 +82,6 @@ public class Lodger {
             is.close();
             os.close();
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
